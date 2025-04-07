@@ -1,31 +1,79 @@
-@use "./variables" as *;
+@use "./_variables" as *;
 
-.h1{
-    font-family: $font-primary;
-    font-size: $font-size-title;
-    color: $color-text-secondary;
-}
+:global {
+    .h1{
+        font-family: $font-primary !important;
+        font-size: $font-size-title !important;
+        color: $color-text-secondary !important;
+        font-weight: bold;
+    }
+    
+    .text-subtitle{
+        font-family: $font-primary !important;
+        font-size: $font-size-subtitle !important;
+        color: $color-text-secondary !important;
+    }
+    
+    .text-body{
+        font-family: $font-primary !important;
+        font-size: $font-size-body !important;
+        color: $color-text-secondary !important;
+    }
+    
+    .text-small{
+        font-family: $font-primary !important;
+        font-size: $font-size-small !important;
+        color: $color-text-secondary !important;
+    }
+    
+    .text-error{
+        font-family: $font-primary !important;
+        font-size: $font-size-small !important;
+        color: $color-text-error !important;
+    }
 
-.text-subtitle{
-    font-family: $font-primary;
-    font-size: $font-size-subtitle;
-    color: $color-text-secondary;
-}
+    .text-info{
+        font-family: $font-primary !important;
+        font-size: $font-size-small !important;
+        color: $color-text-info !important;
+    }
 
-.text-body{
-    font-family: $font-primary;
-    font-size: $font-size-body;
-    color: $color-text-secondary;
-}
+    .text-info-bold{
+        font-family: $font-primary !important;
+        font-size: $font-size-small !important;
+        color: $color-text-secondary !important;
+        font-weight: bold;
+    }
 
-.text-small{
-    font-family: $font-primary;
-    font-size: $font-size-small;
-    color: $color-text-secondary;
-}
+    .btnPrimary{
+        background-color: $color-primary !important;
+        color: $color-tertiary !important;
+        font-size: $font-size-small !important;
+        font-weight: 700 !important;
+        border-radius: 10px !important;
+        height: 45px !important;
+        width: 400px !important;
 
-.text-error{
-    font-family: $font-primary;
-    font-size: $font-size-small;
-    color: $color-text-error;
+        transition: 0.3s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    .btnSecondary{
+        background-color: $color-tertiary !important;
+        color: $color-quaternary !important;
+        font-size: $font-size-small !important;
+        font-weight: 700 !important;
+        border-radius: 10px !important;
+        height: 45px !important;
+        width: 350px !important;
+
+        transition: 0.3s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
 }
