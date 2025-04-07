@@ -1,0 +1,31 @@
+@use "./variables" as *;
+
+.h1{
+    font-family: $font-primary;
+    font-size: $font-size-title;
+    color: $color-text-secondary;
+}
+
+.text-subtitle{
+    font-family: $font-primary;
+    font-size: $font-size-subtitle;
+    color: $color-text-secondary;
+}
+
+.text-body{
+    font-family: $font-primary;
+    font-size: $font-size-body;
+    color: $color-text-secondary;
+}
+
+.text-small{
+    font-family: $font-primary;
+    font-size: $font-size-small;
+    color: $color-text-secondary;
+}
+
+.text-error{
+    font-family: $font-primary;
+    font-size: $font-size-small;
+    color: $color-text-error;
+}
