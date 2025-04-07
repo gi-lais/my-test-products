@@ -1,0 +1,22 @@
+@use "../../styles/variables" as *;
+
+.loginPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #6dc0fc;
+}
+
+.formSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: $color-quaternary;
+    border-radius: 16px;
+}
