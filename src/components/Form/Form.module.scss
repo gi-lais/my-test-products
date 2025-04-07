@@ -1,0 +1,10 @@
+@use '../../styles/_variables' as *; 
+@use '../../styles/_global' as *; 
+
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
