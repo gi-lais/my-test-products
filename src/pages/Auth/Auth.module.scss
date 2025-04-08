@@ -1,5 +1,5 @@
-@use '../../styles/_variables' as *; 
-@use '../../styles/_global' as *;
+@use "../../styles/_variables" as *;
+@use "../../styles/_global" as *;
 
 .authContainer {
   display: flex;
@@ -45,12 +45,12 @@
   flex-direction: column;
   border-radius: 20px;
   justify-content: space-around;
-  height: 700px;
+  height: 800px;
   width: 600px;
 }
 
-.boxBtnAuth{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.boxBtnAuth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
