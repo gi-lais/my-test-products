@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { UserService } from "../../services/userService";
@@ -27,6 +27,8 @@ const RegisterFormStepTwo = ({ stepOneData }: { stepOneData: any }) => {
     message: "",
     severity: "success",
   });
+  const [isLoadingRedirect, setIsLoadingRedirect] = useState(false);
+
   const navigate = useNavigate();
 
   const {
@@ -72,7 +74,10 @@ const RegisterFormStepTwo = ({ stepOneData }: { stepOneData: any }) => {
           message: "Cadastro finalizado com sucesso!",
           severity: "success",
         });
-        setTimeout(() => navigate("/"), 2000);
+        setIsLoadingRedirect(true);
+        setTimeout(() => {
+          navigate("/", { state: { redirectToLogin: true } });
+        }, 2000);
       }
     } catch (error) {
       console.error("Erro ao registrar:", error);
@@ -161,9 +166,15 @@ const RegisterFormStepTwo = ({ stepOneData }: { stepOneData: any }) => {
           size="small"
         />
 
-        <Button className="btnPrimary" type="submit">
-          Finalizar Cadastro
-        </Button>
+        {isLoadingRedirect ? (
+          <Box display="flex" justifyContent="center" mt={2}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Button className="btnPrimary" type="submit">
+            Finalizar Cadastro
+          </Button>
+        )}
       </Box>
     </>
   );

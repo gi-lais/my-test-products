@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Auth.module.scss";
 import RegisterForm from "../../components/Form/RegisterForm";
 import LoginForm from "../../components/Form/LoginForm";
 import { Box, Button, Grid, Typography } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const Auth = () => {
   const [isRegister, setIsRegister] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.redirectToLogin) {
+      setIsRegister(false);
+    }
+  }, [location.state]);
 
   return (
     <Box className={styles.authContainer}>
