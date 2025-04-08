@@ -11,6 +11,8 @@ import {
   Select,
   MenuItem,
   Typography,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -48,6 +50,7 @@ type FormData = z.infer<typeof schema>;
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [stepOneData, setStepOneData] = useState<FormData | null>(null);
   const [stepTwo, setStepTwo] = useState(false);
 
   const {
@@ -61,153 +64,188 @@ const RegisterForm = () => {
 
   const [birthDate, setBirthDate] = useState<Date | null>(null);
 
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "error",
+  });
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await UserService.register(data as any);
-      if (response.status === 201) {
-        setStepTwo(true);
+      const response = await UserService.findByEmail(data.email);
+      if (response.data.length > 0) {
+        setSnackbar({
+          open: true,
+          message: "Email já cadastrado.",
+          severity: "error",
+        });
+        return;
       }
+      setStepOneData(data);
+      setStepTwo(true);
     } catch (error) {
-      console.error("Erro no cadastro:", error);
+      setSnackbar({
+        open: true,
+        message: "Erro ao verificar email.",
+        severity: "error",
+      });
     }
   };
 
-  if (stepTwo) return <RegisterFormStepTwo />;
+  if (stepTwo && stepOneData)
+    return <RegisterFormStepTwo stepOneData={stepOneData} />;
 
   return (
-    <Box
-      className={styles.formRegister}
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <TextField
-        label="Nome"
-        {...register("nome")}
-        error={!!errors.nome}
-        helperText={errors.nome?.message}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <AccountCircleIcon />
-            </InputAdornment>
-          ),
-        }}
-        size="small"
-        sx={{ width: "400px" }}
-      />
-      <TextField
-        label="Sobrenome"
-        {...register("sobrenome")}
-        error={!!errors.sobrenome}
-        helperText={errors.sobrenome?.message}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <AccountCircleIcon />
-            </InputAdornment>
-          ),
-        }}
-        size="small"
-        sx={{ width: "400px" }}
-      />
-
-      <TextField
-        label="CPF"
-        {...register("cpf")}
-        name="cpf"
-        error={!!errors.cpf}
-        helperText={errors.cpf?.message}
-        InputProps={{
-          inputComponent: CPFMask as any,
-          startAdornment: (
-            <InputAdornment position="start">
-              <AssignmentIcon />
-            </InputAdornment>
-          ),
-        }}
-        size="small"
-        sx={{ width: "400px" }}
-      />
-
-      <TextField
-        label="Email"
-        {...register("email")}
-        error={!!errors.email}
-        helperText={errors.email?.message}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <EmailIcon />
-            </InputAdornment>
-          ),
-        }}
-        size="small"
-        sx={{ width: "400px" }}
-      />
-      <FormControl size="small" sx={{ width: "400px" }}>
-        <InputLabel htmlFor="senha">Senha</InputLabel>
-        <OutlinedInput
-          id="senha"
-          type={showPassword ? "text" : "password"}
-          {...register("senha")}
-          error={!!errors.senha}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton onClick={handleClickShowPassword} edge="end">
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Senha"
+    <>
+      <Box
+        className={styles.formRegister}
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <TextField
+          label="Nome"
+          {...register("nome")}
+          error={!!errors.nome}
+          helperText={errors.nome?.message}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <AccountCircleIcon />
+              </InputAdornment>
+            ),
+          }}
+          size="small"
+          sx={{ width: "400px" }}
         />
-        {errors.senha && (
-          <Typography color="error" fontSize={12}>
-            {errors.senha.message}
-          </Typography>
-        )}
-      </FormControl>
-      <FormControl sx={{ width: "400px" }} size="small">
-        <InputLabel>Sexo</InputLabel>
-        <Select
-          {...register("sexo")}
-          defaultValue=""
-          label="Sexo"
-          error={!!errors.sexo}
+        <TextField
+          label="Sobrenome"
+          {...register("sobrenome")}
+          error={!!errors.sobrenome}
+          helperText={errors.sobrenome?.message}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <AccountCircleIcon />
+              </InputAdornment>
+            ),
+          }}
+          size="small"
+          sx={{ width: "400px" }}
+        />
+
+        <TextField
+          label="CPF"
+          {...register("cpf")}
+          name="cpf"
+          error={!!errors.cpf}
+          helperText={errors.cpf?.message}
+          InputProps={{
+            inputComponent: CPFMask as any,
+            startAdornment: (
+              <InputAdornment position="start">
+                <AssignmentIcon />
+              </InputAdornment>
+            ),
+          }}
+          size="small"
+          sx={{ width: "400px" }}
+        />
+
+        <TextField
+          label="Email"
+          {...register("email")}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon />
+              </InputAdornment>
+            ),
+          }}
+          size="small"
+          sx={{ width: "400px" }}
+        />
+        <FormControl size="small" sx={{ width: "400px" }}>
+          <InputLabel htmlFor="senha">Senha</InputLabel>
+          <OutlinedInput
+            id="senha"
+            type={showPassword ? "text" : "password"}
+            {...register("senha")}
+            error={!!errors.senha}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton onClick={handleClickShowPassword} edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Senha"
+          />
+          {errors.senha && (
+            <Typography color="error" fontSize={12}>
+              {errors.senha.message}
+            </Typography>
+          )}
+        </FormControl>
+        <FormControl sx={{ width: "400px" }} size="small">
+          <InputLabel>Sexo</InputLabel>
+          <Select
+            {...register("sexo")}
+            defaultValue=""
+            label="Sexo"
+            error={!!errors.sexo}
+          >
+            <MenuItem value="F">Feminino</MenuItem>
+            <MenuItem value="M">Masculino</MenuItem>
+          </Select>
+          {errors.sexo && (
+            <Typography color="error" fontSize={12}>
+              {errors.sexo.message}
+            </Typography>
+          )}
+        </FormControl>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+          <DatePicker
+            label="Data de Nascimento"
+            value={birthDate}
+            onChange={(date) => {
+              setBirthDate(date);
+              if (date) setValue("nascimento", date);
+            }}
+            slotProps={{
+              textField: {
+                error: !!errors.nascimento,
+                helperText: errors.nascimento?.message,
+                size: "small",
+                sx: { width: "400px" },
+              },
+            }}
+          />
+        </LocalizationProvider>
+
+        <Button className="btnPrimary" type="submit">
+          Registrar
+        </Button>
+      </Box>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={4000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          severity={snackbar.severity as "success" | "error"}
+          sx={{ width: "400px", height: "40px" }}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
         >
-          <MenuItem value="F">Feminino</MenuItem>
-          <MenuItem value="M">Masculino</MenuItem>
-        </Select>
-        {errors.sexo && (
-          <Typography color="error" fontSize={12}>
-            {errors.sexo.message}
-          </Typography>
-        )}
-      </FormControl>
-      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
-        <DatePicker
-          label="Data de Nascimento"
-          value={birthDate}
-          onChange={(date) => {
-            setBirthDate(date);
-            if (date) setValue("nascimento", date);
-          }}
-          slotProps={{
-            textField: {
-              error: !!errors.nascimento,
-              helperText: errors.nascimento?.message,
-              size: "small",
-              sx: { width: "400px" },
-            },
-          }}
-        />
-      </LocalizationProvider>
-
-      <Button className="btnPrimary" type="submit">
-        Registrar
-      </Button>
-    </Box>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 

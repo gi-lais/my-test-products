@@ -4,6 +4,9 @@ import { z } from "zod";
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
+import { UserService } from "../../services/userService";
+import { Snackbar, Alert } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   cep: z.string().min(8, "CEP obrigatório"),
@@ -17,8 +20,15 @@ const schema = z.object({
 
 type StepTwoData = z.infer<typeof schema>;
 
-const RegisterFormStepTwo = () => {
+const RegisterFormStepTwo = ({ stepOneData }: { stepOneData: any }) => {
   const [errorCep, setErrorCep] = useState("");
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -48,76 +58,114 @@ const RegisterFormStepTwo = () => {
     }
   };
 
-  const onSubmit = (data: StepTwoData) => {
-    console.log("Dados de endereço:", data);
-    alert("Endereço salvo com sucesso!");
+  const onSubmit = async (data: StepTwoData) => {
+    try {
+      const fullData = {
+        ...stepOneData,
+        ...data,
+      };
+
+      const response = await UserService.register(fullData);
+      if (response.status === 201) {
+        setSnackbar({
+          open: true,
+          message: "Cadastro finalizado com sucesso!",
+          severity: "success",
+        });
+        setTimeout(() => navigate("/"), 2000);
+      }
+    } catch (error) {
+      console.error("Erro ao registrar:", error);
+      setSnackbar({
+        open: true,
+        message: "Erro ao finalizar cadastro.",
+        severity: "error",
+      });
+    }
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        width: "400px",
-        mt: 4,
-      }}
-    >
-      <TextField
-        label="CEP"
-        {...register("cep")}
-        error={!!errors.cep || !!errorCep}
-        helperText={errors.cep?.message || errorCep}
-        size="small"
-        onBlur={() => fetchAddress(cepValue)}
-      />
-      <TextField
-        label="Rua"
-        {...register("logradouro")}
-        error={!!errors.logradouro}
-        helperText={errors.logradouro?.message}
-        size="small"
-      />
-      <TextField
-        label="Número"
-        {...register("numero")}
-        error={!!errors.numero}
-        helperText={errors.numero?.message}
-        size="small"
-      />
-      <TextField
-        label="Complemento"
-        {...register("complemento")}
-        size="small"
-      />
-      <TextField
-        label="Bairro"
-        {...register("bairro")}
-        error={!!errors.bairro}
-        helperText={errors.bairro?.message}
-        size="small"
-      />
-      <TextField
-        label="Cidade"
-        {...register("cidade")}
-        error={!!errors.cidade}
-        helperText={errors.cidade?.message}
-        size="small"
-      />
-      <TextField
-        label="Estado"
-        {...register("estado")}
-        error={!!errors.estado}
-        helperText={errors.estado?.message}
-        size="small"
-      />
+    <>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={4000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          severity={snackbar.severity as "success" | "error"}
+          sx={{ width: "100%" }}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
 
-      <Button className="btnPrimary" type="submit">
-        Salvar Endereço
-      </Button>
-    </Box>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          width: "400px",
+          mt: 4,
+        }}
+      >
+        <TextField
+          label="CEP"
+          {...register("cep")}
+          error={!!errors.cep || !!errorCep}
+          helperText={errors.cep?.message || errorCep}
+          size="small"
+          onBlur={() => fetchAddress(cepValue)}
+        />
+        <TextField
+          label="Rua"
+          {...register("logradouro")}
+          error={!!errors.logradouro}
+          helperText={errors.logradouro?.message}
+          size="small"
+        />
+        <TextField
+          label="Número"
+          {...register("numero")}
+          error={!!errors.numero}
+          helperText={errors.numero?.message}
+          size="small"
+        />
+        <TextField
+          label="Complemento"
+          {...register("complemento")}
+          size="small"
+        />
+        <TextField
+          label="Bairro"
+          {...register("bairro")}
+          error={!!errors.bairro}
+          helperText={errors.bairro?.message}
+          size="small"
+        />
+        <TextField
+          label="Cidade"
+          {...register("cidade")}
+          error={!!errors.cidade}
+          helperText={errors.cidade?.message}
+          size="small"
+        />
+        <TextField
+          label="Estado"
+          {...register("estado")}
+          error={!!errors.estado}
+          helperText={errors.estado?.message}
+          size="small"
+        />
+
+        <Button className="btnPrimary" type="submit">
+          Finalizar Cadastro
+        </Button>
+      </Box>
+    </>
   );
 };
 

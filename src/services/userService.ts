@@ -1,12 +1,20 @@
-import { IUser } from '../interfaces/IUser';
-import { api } from '../config/api';
+import { IUser } from "../interfaces/IUser";
+import { api } from "../config/api";
 
 export const UserService = {
   register: async (user: IUser) => {
-    return api.post('/user', user);
+    return api.post("/user", user);
   },
 
   findByEmail: async (email: string) => {
-    return api.get(`/user?search=${email}`);
+    try {
+      const response = await api.get(`/user?search=${email}`);
+      return response;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return { data: [] };
+      }
+      throw error;
+    }
   },
 };
