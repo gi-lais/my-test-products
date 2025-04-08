@@ -1,14 +1,18 @@
 import { IMaskInput } from "react-imask";
-import React from "react";
+import { forwardRef } from "react";
+import type { InputBaseComponentProps } from "@mui/material";
 
-interface CustomProps {
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
-}
+type MaskedInputEvent = {
+  target: {
+    name: string;
+    value: string;
+  };
+};
 
-const CPFMask = React.forwardRef<HTMLInputElement, CustomProps>(
+const CPFMask = forwardRef<HTMLInputElement, InputBaseComponentProps>(
   function CPFMask(props, ref) {
-    const { onChange, ...other } = props;
+    const { onChange, name, ...other } = props;
+
     return (
       <IMaskInput
         {...other}
@@ -17,7 +21,15 @@ const CPFMask = React.forwardRef<HTMLInputElement, CustomProps>(
           "0": /[0-9]/,
         }}
         inputRef={ref}
-        onAccept={(value) => onChange({ target: { name: props.name, value } })}
+        onAccept={(value: unknown) => {
+          const event: MaskedInputEvent = {
+            target: {
+              name: name ?? "",
+              value: value as string,
+            },
+          };
+          onChange?.(event as unknown as React.ChangeEvent<HTMLInputElement>);
+        }}
         overwrite
       />
     );
@@ -25,3 +37,6 @@ const CPFMask = React.forwardRef<HTMLInputElement, CustomProps>(
 );
 
 export default CPFMask;
+
+
+

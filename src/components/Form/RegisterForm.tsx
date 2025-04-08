@@ -24,12 +24,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import ptBR from "date-fns/locale/pt-BR";
 import { UserService } from "../../services/userService";
 import RegisterFormStepTwo from "./RegisterFormStepTwo";
 import { isValidCPF } from "../../utils/validateCpf";
 import CPFMask from "../CPFMask/CPFMask";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
 
 const schema = z.object({
   nome: z.string().min(1, "Nome obrigatório"),
@@ -62,7 +63,7 @@ const RegisterForm = () => {
     resolver: zodResolver(schema),
   });
 
-  const [birthDate, setBirthDate] = useState<Date | null>(null);
+  const [birthDate, setBirthDate] = useState<dayjs.Dayjs | null>(null);
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -91,6 +92,7 @@ const RegisterForm = () => {
         message: "Erro ao verificar email.",
         severity: "error",
       });
+      console.error(error);
     }
   };
 
@@ -143,7 +145,7 @@ const RegisterForm = () => {
           error={!!errors.cpf}
           helperText={errors.cpf?.message}
           InputProps={{
-            inputComponent: CPFMask as any,
+            inputComponent: CPFMask,
             startAdornment: (
               <InputAdornment position="start">
                 <AssignmentIcon />
@@ -211,13 +213,13 @@ const RegisterForm = () => {
           )}
         </FormControl>
 
-        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
           <DatePicker
             label="Data de Nascimento"
             value={birthDate}
             onChange={(date) => {
               setBirthDate(date);
-              if (date) setValue("dt_nascimento", date);
+              if (date) setValue("dt_nascimento", date.toDate());
             }}
             slotProps={{
               textField: {
