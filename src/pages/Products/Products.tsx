@@ -3,6 +3,7 @@ import { AgGridReact } from "ag-grid-react";
 import {
   ClientSideRowModelModule,
   ColDef,
+  ICellRendererParams,
   ModuleRegistry,
 } from "ag-grid-community";
 import { Box, Button, TextField } from "@mui/material";
@@ -36,7 +37,7 @@ const Products = () => {
       {
         headerName: "Avatar",
         field: "avatar",
-        cellRenderer: (params: any) =>
+        cellRenderer: (params: ICellRendererParams<Product>) =>
           `<img src="${params.value}" alt="avatar" style="width: 40px; border-radius: 50%" />`,
       },
       { headerName: "Nome", field: "nome" },
