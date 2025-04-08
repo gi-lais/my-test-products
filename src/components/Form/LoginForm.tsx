@@ -20,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { UserService } from "../../services/userService";
+import { v4 as uuidv4 } from "uuid";
 
 const schema = z.object({
   email: z.string().email("Email inválido").nonempty("Email é obrigatório"),
@@ -50,7 +51,7 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await UserService.findByEmail(data.email);
-      const user = response.data[0];
+      const user = { ...response.data[0], token: uuidv4() };
 
       if (!user) {
         throw new Error("Usuário não encontrado");
@@ -60,8 +61,7 @@ const LoginForm = () => {
         throw new Error("Senha incorreta");
       }
 
-      // Sucesso: salvar token (mockado aqui com user.id)
-      localStorage.setItem("token", user.id);
+      localStorage.setItem("token", user.token);
 
       setSnackbar({
         open: true,

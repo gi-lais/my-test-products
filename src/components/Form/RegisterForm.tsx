@@ -32,8 +32,8 @@ import { isValidCPF } from "../../utils/validateCpf";
 import CPFMask from "../CPFMask/CPFMask";
 
 const schema = z.object({
-  nome: z.string().min(1, "Nome obrigatório"),
-  sobrenome: z.string().min(1, "Sobrenome obrigatório"),
+  name: z.string().min(1, "Nome obrigatório"),
+  surname: z.string().min(1, "Sobrenome obrigatório"),
   cpf: z
     .string()
     .min(14, "CPF inválido")
@@ -41,9 +41,9 @@ const schema = z.object({
       message: "CPF inválido",
     }),
   email: z.string().email("Email inválido"),
-  senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-  sexo: z.string().min(1, "Sexo obrigatório"),
-  nascimento: z.date({ required_error: "Data obrigatória" }),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  sex: z.string().min(1, "Sexo obrigatório"),
+  birthDate: z.date({ required_error: "Data obrigatória" }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -106,9 +106,9 @@ const RegisterForm = () => {
       >
         <TextField
           label="Nome"
-          {...register("nome")}
-          error={!!errors.nome}
-          helperText={errors.nome?.message}
+          {...register("name")}
+          error={!!errors.name}
+          helperText={errors.name?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -119,11 +119,12 @@ const RegisterForm = () => {
           size="small"
           sx={{ width: "400px" }}
         />
+
         <TextField
           label="Sobrenome"
-          {...register("sobrenome")}
-          error={!!errors.sobrenome}
-          helperText={errors.sobrenome?.message}
+          {...register("surname")}
+          error={!!errors.surname}
+          helperText={errors.surname?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -168,13 +169,14 @@ const RegisterForm = () => {
           size="small"
           sx={{ width: "400px" }}
         />
+
         <FormControl size="small" sx={{ width: "400px" }}>
-          <InputLabel htmlFor="senha">Senha</InputLabel>
+          <InputLabel htmlFor="password">Senha</InputLabel>
           <OutlinedInput
-            id="senha"
+            id="password"
             type={showPassword ? "text" : "password"}
-            {...register("senha")}
-            error={!!errors.senha}
+            {...register("password")}
+            error={!!errors.password}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton onClick={handleClickShowPassword} edge="end">
@@ -184,41 +186,43 @@ const RegisterForm = () => {
             }
             label="Senha"
           />
-          {errors.senha && (
+          {errors.password && (
             <Typography color="error" fontSize={12}>
-              {errors.senha.message}
+              {errors.password.message}
             </Typography>
           )}
         </FormControl>
+
         <FormControl sx={{ width: "400px" }} size="small">
           <InputLabel>Sexo</InputLabel>
           <Select
-            {...register("sexo")}
+            {...register("sex")}
             defaultValue=""
             label="Sexo"
-            error={!!errors.sexo}
+            error={!!errors.sex}
           >
             <MenuItem value="F">Feminino</MenuItem>
             <MenuItem value="M">Masculino</MenuItem>
           </Select>
-          {errors.sexo && (
+          {errors.sex && (
             <Typography color="error" fontSize={12}>
-              {errors.sexo.message}
+              {errors.sex.message}
             </Typography>
           )}
         </FormControl>
+
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
           <DatePicker
             label="Data de Nascimento"
             value={birthDate}
             onChange={(date) => {
               setBirthDate(date);
-              if (date) setValue("nascimento", date);
+              if (date) setValue("birthDate", date);
             }}
             slotProps={{
               textField: {
-                error: !!errors.nascimento,
-                helperText: errors.nascimento?.message,
+                error: !!errors.birthDate,
+                helperText: errors.birthDate?.message,
                 size: "small",
                 sx: { width: "400px" },
               },
