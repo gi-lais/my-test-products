@@ -12,12 +12,12 @@ export const AppRoutes = () => (
         path="/products"
         element={
           <PrivateRoute>
-            <ProtectedLayout />
+            <ProtectedLayout>
+              <Products />
+            </ProtectedLayout>
           </PrivateRoute>
         }
-      >
-        <Route index element={<Products />} />
-      </Route>
+      />
       <Route path="*" element={<div>Página não encontrada</div>} />
     </Routes>
   </BrowserRouter>
