@@ -70,10 +70,12 @@ const LoginForm = () => {
       });
 
       setTimeout(() => navigate("/products"), 2000);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Erro ao fazer login";
       setSnackbar({
         open: true,
-        message: err.message || "Erro ao fazer login",
+        message: errorMessage,
         severity: "error",
       });
     }

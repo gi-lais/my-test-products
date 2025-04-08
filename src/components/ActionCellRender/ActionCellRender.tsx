@@ -1,7 +1,11 @@
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const ActionCellRenderer = (props: any) => {
+interface ActionCellRendererProps {
+  value: string;
+}
+
+const ActionCellRenderer = (props: ActionCellRendererProps) => {
   const navigate = useNavigate();
 
   return (
