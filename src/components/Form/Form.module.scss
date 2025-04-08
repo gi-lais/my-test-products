@@ -1,19 +1,11 @@
-@use '../../styles/_variables' as *; 
-@use '../../styles/_global' as *; 
+@use "../../styles/_variables" as *;
+@use "../../styles/_global" as *;
 
-.form{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-}
-
-.formRegister{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-    gap: $spacing-md;
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: $spacing-md;
 }

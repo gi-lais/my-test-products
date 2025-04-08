@@ -28,7 +28,11 @@ const Auth = () => {
         </Grid>
 
         <Grid size={6}>
-          <Box className={styles.formPanel}>
+          <Box
+            className={`${styles.formPanel} ${
+              isRegister ? "" : styles.formPanelSmall
+            }`}
+          >
             <Box className={styles.boxBtnAuth}>
               <Typography className="h1">
                 {isRegister ? "Bem-vindo(a)." : "Bem-vindo(a) de volta,"}

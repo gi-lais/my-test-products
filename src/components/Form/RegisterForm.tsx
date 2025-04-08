@@ -100,7 +100,7 @@ const RegisterForm = () => {
   return (
     <>
       <Box
-        className={styles.formRegister}
+        className={styles.form}
         component="form"
         onSubmit={handleSubmit(onSubmit)}
       >
