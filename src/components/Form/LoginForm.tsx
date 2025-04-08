@@ -24,7 +24,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const schema = z.object({
   email: z.string().email("Email inválido").nonempty("Email é obrigatório"),
-  password: z.string().nonempty("Senha é obrigatória"),
+  senha: z.string().nonempty("Senha é obrigatória"),
 });
 
 type LoginFormData = z.infer<typeof schema>;
@@ -57,7 +57,7 @@ const LoginForm = () => {
         throw new Error("Usuário não encontrado");
       }
 
-      if (user.password !== data.password) {
+      if (user.senha !== data.senha) {
         throw new Error("Senha incorreta");
       }
 
@@ -118,14 +118,14 @@ const LoginForm = () => {
         />
 
         <FormControl variant="outlined" size="small">
-          <InputLabel htmlFor="password" error={!!errors.password}>
+          <InputLabel htmlFor="password" error={!!errors.senha}>
             Senha
           </InputLabel>
           <OutlinedInput
             id="password"
             type={showPassword ? "text" : "password"}
-            {...register("password")}
-            error={!!errors.password}
+            {...register("senha")}
+            error={!!errors.senha}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton onClick={handleClickShowPassword} edge="end">
@@ -136,11 +136,11 @@ const LoginForm = () => {
             label="Senha"
             sx={{ width: "400px" }}
           />
-          {errors.password && (
+          {errors.senha && (
             <span
               style={{ color: "red", fontSize: "0.75rem", marginTop: "4px" }}
             >
-              {errors.password.message}
+              {errors.senha.message}
             </span>
           )}
         </FormControl>
