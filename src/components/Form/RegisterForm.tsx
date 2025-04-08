@@ -32,8 +32,8 @@ import { isValidCPF } from "../../utils/validateCpf";
 import CPFMask from "../CPFMask/CPFMask";
 
 const schema = z.object({
-  name: z.string().min(1, "Nome obrigatório"),
-  surname: z.string().min(1, "Sobrenome obrigatório"),
+  nome: z.string().min(1, "Nome obrigatório"),
+  sobrenome: z.string().min(1, "Sobrenome obrigatório"),
   cpf: z
     .string()
     .min(14, "CPF inválido")
@@ -41,9 +41,9 @@ const schema = z.object({
       message: "CPF inválido",
     }),
   email: z.string().email("Email inválido"),
-  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-  sex: z.string().min(1, "Sexo obrigatório"),
-  birthDate: z.date({ required_error: "Data obrigatória" }),
+  senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  sexo: z.string().min(1, "Sexo obrigatório"),
+  dt_nascimento: z.date({ required_error: "Data obrigatória" }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -106,9 +106,9 @@ const RegisterForm = () => {
       >
         <TextField
           label="Nome"
-          {...register("name")}
-          error={!!errors.name}
-          helperText={errors.name?.message}
+          {...register("nome")}
+          error={!!errors.nome}
+          helperText={errors.nome?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -122,9 +122,9 @@ const RegisterForm = () => {
 
         <TextField
           label="Sobrenome"
-          {...register("surname")}
-          error={!!errors.surname}
-          helperText={errors.surname?.message}
+          {...register("sobrenome")}
+          error={!!errors.sobrenome}
+          helperText={errors.sobrenome?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -175,8 +175,8 @@ const RegisterForm = () => {
           <OutlinedInput
             id="password"
             type={showPassword ? "text" : "password"}
-            {...register("password")}
-            error={!!errors.password}
+            {...register("senha")}
+            error={!!errors.senha}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton onClick={handleClickShowPassword} edge="end">
@@ -186,9 +186,9 @@ const RegisterForm = () => {
             }
             label="Senha"
           />
-          {errors.password && (
+          {errors.senha && (
             <Typography color="error" fontSize={12}>
-              {errors.password.message}
+              {errors.senha.message}
             </Typography>
           )}
         </FormControl>
@@ -196,17 +196,17 @@ const RegisterForm = () => {
         <FormControl sx={{ width: "400px" }} size="small">
           <InputLabel>Sexo</InputLabel>
           <Select
-            {...register("sex")}
+            {...register("sexo")}
             defaultValue=""
             label="Sexo"
-            error={!!errors.sex}
+            error={!!errors.sexo}
           >
             <MenuItem value="F">Feminino</MenuItem>
             <MenuItem value="M">Masculino</MenuItem>
           </Select>
-          {errors.sex && (
+          {errors.sexo && (
             <Typography color="error" fontSize={12}>
-              {errors.sex.message}
+              {errors.sexo.message}
             </Typography>
           )}
         </FormControl>
@@ -217,12 +217,12 @@ const RegisterForm = () => {
             value={birthDate}
             onChange={(date) => {
               setBirthDate(date);
-              if (date) setValue("birthDate", date);
+              if (date) setValue("dt_nascimento", date);
             }}
             slotProps={{
               textField: {
-                error: !!errors.birthDate,
-                helperText: errors.birthDate?.message,
+                error: !!errors.dt_nascimento,
+                helperText: errors.dt_nascimento?.message,
                 size: "small",
                 sx: { width: "400px" },
               },
