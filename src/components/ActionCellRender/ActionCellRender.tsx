@@ -10,7 +10,11 @@ const ActionCellRenderer = ({ product }: { product: Product }) => {
 
   const handleView = () => navigate(`/products/${product.id}`);
   const handleEdit = () => navigate(`/products/edit/${product.id}`);
-  const handleDelete = () => navigate(`/products/delete/${product.id}`);
+  const handleDelete = () => {
+    if (confirm("Tem certeza que deseja excluir este produto?")) {
+      navigate(`/products/delete/${product.id}`);
+    }
+  };
 
   return (
     <>
