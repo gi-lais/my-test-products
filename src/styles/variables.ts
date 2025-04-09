@@ -1,0 +1,25 @@
+export const variables = {
+  colorPrimary: "#6bff50",
+  colorPrimaryLight: "#6aff5080",
+  colorSecondary: "#461cdc",
+  colorTertiary: "#000023",
+  colorQuaternary: "#ffffff",
+  colorTextPrimary: "#ffffff",
+  colorTextSecondary: "#292929",
+  colorTextError: "#b90000",
+  colorTextInfo: "#4b4b4b",
+  colorGradient: "linear-gradient(135deg, #c8beff, #5e9eff, #1d0080, #aafcf8)",
+
+  fontPrimary: "'Poppins', sans-serif",
+  fontSecondary: "'Montserrat', sans-serif",
+  fontSizeTitle: "2rem",
+  fontSizeSubtitle: "1.5rem",
+  fontSizeBody: "1rem",
+  fontSizeSmall: "0.875rem",
+
+  spacingXs: "4px",
+  spacingSm: "8px",
+  spacingMd: "16px",
+  spacingLg: "24px",
+  spacingXl: "32px",
+};
