@@ -1,79 +1,83 @@
 @use "./_variables" as *;
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :global {
-    .h1{
-        font-family: $font-primary !important;
-        font-size: $font-size-title !important;
-        color: $color-text-secondary !important;
-        font-weight: bold;
-    }
-    
-    .text-subtitle{
-        font-family: $font-primary !important;
-        font-size: $font-size-subtitle !important;
-        color: $color-text-secondary !important;
-    }
-    
-    .text-body{
-        font-family: $font-primary !important;
-        font-size: $font-size-body !important;
-        color: $color-text-secondary !important;
-    }
-    
-    .text-small{
-        font-family: $font-primary !important;
-        font-size: $font-size-small !important;
-        color: $color-text-secondary !important;
-    }
-    
-    .text-error{
-        font-family: $font-primary !important;
-        font-size: $font-size-small !important;
-        color: $color-text-error !important;
-    }
+  .h1 {
+    font-family: $font-primary !important;
+    font-size: $font-size-title !important;
+    color: $color-text-secondary !important;
+    font-weight: bold;
+  }
 
-    .text-info{
-        font-family: $font-primary !important;
-        font-size: $font-size-small !important;
-        color: $color-text-info !important;
+  .text-subtitle {
+    font-family: $font-primary !important;
+    font-size: $font-size-subtitle !important;
+    color: $color-text-secondary !important;
+  }
+
+  .text-body {
+    font-family: $font-primary !important;
+    font-size: $font-size-body !important;
+    color: $color-text-secondary !important;
+  }
+
+  .text-small {
+    font-family: $font-primary !important;
+    font-size: $font-size-small !important;
+    color: $color-text-secondary !important;
+  }
+
+  .text-error {
+    font-family: $font-primary !important;
+    font-size: $font-size-small !important;
+    color: $color-text-error !important;
+  }
+
+  .text-info {
+    font-family: $font-primary !important;
+    font-size: $font-size-small !important;
+    color: $color-text-info !important;
+  }
+
+  .text-info-bold {
+    font-family: $font-primary !important;
+    font-size: $font-size-small !important;
+    color: $color-text-secondary !important;
+    font-weight: bold;
+  }
+
+  .btnPrimary {
+    background-color: $color-primary !important;
+    color: $color-tertiary !important;
+    font-size: $font-size-small !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    height: 45px !important;
+    width: 400px !important;
+    transition: 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
     }
+  }
 
-    .text-info-bold{
-        font-family: $font-primary !important;
-        font-size: $font-size-small !important;
-        color: $color-text-secondary !important;
-        font-weight: bold;
+  .btnSecondary {
+    background-color: $color-tertiary !important;
+    color: $color-quaternary !important;
+    font-size: $font-size-small !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    height: 45px !important;
+    width: 350px !important;
+    transition: 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
     }
-
-    .btnPrimary{
-        background-color: $color-primary !important;
-        color: $color-tertiary !important;
-        font-size: $font-size-small !important;
-        font-weight: 700 !important;
-        border-radius: 10px !important;
-        height: 45px !important;
-        width: 400px !important;
-
-        transition: 0.3s ease;
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-    }
-
-    .btnSecondary{
-        background-color: $color-tertiary !important;
-        color: $color-quaternary !important;
-        font-size: $font-size-small !important;
-        font-weight: 700 !important;
-        border-radius: 10px !important;
-        height: 45px !important;
-        width: 350px !important;
-
-        transition: 0.3s ease;
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-    }
+  }
 }
