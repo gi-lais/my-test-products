@@ -1,18 +1,52 @@
 import { Box } from "@mui/material";
-import Header from "../components/Header/Header";
-import Sidebar from "../components/Sidebar/Sidebar";
+import { Outlet } from "react-router-dom";
+import AppBarElement from "../components/AppBarElement/AppBarElement";
+import SideMenu from "../components/SideMenu/SideMenu";
+import { useState } from "react";
 
-const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
+const ProtectedLayout = () => {
+  const [open, setOpen] = useState(true);
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
+
   return (
-    <Box display="flex" flexDirection="column" height="100vh">
-      <Header />
-      <Box display="flex" flex={1}>
-        <Sidebar />
-        <Box flex={1} p={3} bgcolor="#f5f5f5">
-          {children}
+    <>
+      <Box
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          position: "fixed",
+          backgroundColor: "#F0F0F0",
+        }}
+      >
+        <Box>
+          <AppBarElement />
+        </Box>
+
+        <Box sx={{ height: "100%", display: "flex" }}>
+          <SideMenu open={open} toggleDrawer={toggleDrawer} />
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              p: 3,
+              mx: 8,
+              mt: "35px",
+              overflowX: "auto",
+              transition: "margin 0.3s ease",
+              backgroundColor: "#FFF",
+              borderRadius: "20px",
+              width: "60vw",
+              height: "88vh",
+            }}
+          >
+            <Outlet />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
