@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { UserService } from "../../services/userService";
 import { v4 as uuidv4 } from "uuid";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const schema = z.object({
   email: z.string().email("Email inválido").nonempty("Email é obrigatório"),
@@ -30,12 +31,14 @@ const schema = z.object({
 type LoginFormData = z.infer<typeof schema>;
 
 const LoginForm = () => {
+  const [loadingScreen, setLoadingScreen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
     severity: "success",
   });
+
   const navigate = useNavigate();
 
   const {
@@ -50,6 +53,8 @@ const LoginForm = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
+      setLoadingScreen(true); // mostra loader global
+
       const response = await UserService.findByEmail(data.email);
       const user = { ...response.data[0], token: uuidv4() };
 
@@ -62,6 +67,7 @@ const LoginForm = () => {
       }
 
       localStorage.setItem("token", user.token);
+      localStorage.setItem("email", user.email);
 
       setSnackbar({
         open: true,
@@ -69,7 +75,10 @@ const LoginForm = () => {
         severity: "success",
       });
 
-      setTimeout(() => navigate("/products"), 2000);
+      setTimeout(() => {
+        setLoadingScreen(false);
+        navigate("/products");
+      }, 2000);
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : "Erro ao fazer login";
@@ -78,6 +87,7 @@ const LoginForm = () => {
         message: errorMessage,
         severity: "error",
       });
+      setLoadingScreen(false);
     }
   };
 
@@ -97,6 +107,13 @@ const LoginForm = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
+
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loadingScreen}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
 
       <Box
         className={styles.form}
