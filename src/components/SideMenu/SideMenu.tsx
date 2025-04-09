@@ -48,8 +48,10 @@ const drawerStyles = (open: boolean) => ({
     backgroundColor: "#FFFFFF",
     display: "flex",
     flexDirection: "column",
-    marginTop: "110px",
+    marginTop: "100px",
     border: "none",
+    borderTopRightRadius: "20px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1);",
   },
 });
 
