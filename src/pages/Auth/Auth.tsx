@@ -24,7 +24,7 @@ const Auth = () => {
         }`}
       >
         <Grid size={6} className={styles.sidePanel}>
-          <img src="src/assets/auth.png" className={styles.imgAuth} />
+          <img src="/images/auth.png" className={styles.imgAuth} />
         </Grid>
 
         <Grid size={6}>

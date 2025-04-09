@@ -78,7 +78,7 @@ const AppBarElement = () => {
             }}
           >
             <img
-              src="src/assets/logo.png"
+              src="/images/logo.png"
               alt="Logo Matera"
               style={{ borderRadius: "12px", width: "50px" }}
             />

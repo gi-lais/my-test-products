@@ -8,7 +8,7 @@ const NotFound = () => {
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <img
-        src="src/assets/notFound.jpg"
+        src="/images/notFound.jpg"
         alt="Imagem representando pagina não encontrada"
         style={{ width: "650px" }}
       />
