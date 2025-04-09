@@ -12,8 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { UserService } from "../../services/userService";
-import styles from "./AppBarElement.module.scss";
 import { useNavigate } from "react-router-dom";
+import { variables } from "../../styles/variables";
 
 const AppBarElement = () => {
   const navigate = useNavigate();
@@ -57,21 +57,60 @@ const AppBarElement = () => {
   }, []);
 
   return (
-    <AppBar position="static" className={styles.appBar}>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: variables.colorQuaternary,
+        color: variables.colorTextSecondary,
+        fontFamily: variables.fontPrimary,
+        boxShadow: "0 2px 8px rgba(1, 82, 1, 0.25)",
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
-          <Box className={styles.logoContainer}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: variables.spacingSm,
+              textDecoration: "none",
+              color: variables.colorTextSecondary,
+            }}
+          >
             <img
               src="src/assets/logo.png"
               alt="Logo Matera"
-              className={styles.logoImage}
+              style={{ borderRadius: "12px", width: "50px" }}
             />
-            <Typography className={styles.logoText}>System</Typography>
+            <Typography
+              sx={{
+                fontFamily: variables.fontPrimary,
+                fontSize: variables.fontSizeSubtitle,
+                fontWeight: 700,
+                letterSpacing: "0.1rem",
+                color: variables.colorTextSecondary,
+                marginLeft: "10px",
+              }}
+            >
+              System
+            </Typography>
           </Box>
 
           {user && (
-            <Box className={styles.userContainer}>
-              <Typography className={styles.userName}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: variables.spacingSm,
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: variables.fontPrimary,
+                  fontSize: variables.fontSizeBody,
+                  color: variables.colorTextSecondary,
+                }}
+              >
                 {user.nome} {user.sobrenome}
               </Typography>
               <Tooltip title="Abrir menu">
@@ -79,7 +118,9 @@ const AppBarElement = () => {
                   <Avatar
                     alt={user.nome}
                     src={user.image}
-                    className={styles.avatar}
+                    sx={{
+                      border: `2px solid ${variables.colorPrimary}`,
+                    }}
                   />
                 </IconButton>
               </Tooltip>
