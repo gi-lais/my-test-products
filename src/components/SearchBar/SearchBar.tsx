@@ -25,7 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon />
+              <SearchIcon data-testeid="SearchIcon" />
             </InputAdornment>
           ),
         }}
