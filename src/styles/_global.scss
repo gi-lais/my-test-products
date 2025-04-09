@@ -80,4 +80,35 @@
       background-color: rgba(255, 255, 255, 0.2);
     }
   }
+
+  .btnTertiary {
+    background-color: $color-tertiary !important;
+    color: $color-quaternary !important;
+    font-size: $font-size-small !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    height: 45px !important;
+    width: 200px !important;
+    transition: 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .btnQuaternary {
+    background-color: $color-quaternary !important;
+    color: $color-tertiary !important;
+    font-size: $font-size-small !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    border-color: $color-tertiary !important;
+    height: 45px !important;
+    width: 200px !important;
+    transition: 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
 }

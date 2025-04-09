@@ -1,5 +1,6 @@
-// Cores 
+// Cores
 $color-primary: #6bff50;
+$color-primary-light: #6aff5080;
 $color-secondary: #461cdc;
 $color-tertiary: #000023;
 $color-quaternary: #ffffff;
@@ -10,8 +11,8 @@ $color-text-info: #4b4b4b;
 $color-gradient: linear-gradient(135deg, #c8beff, #5e9eff, #1d0080, #aafcf8);
 
 // Tipografia
-$font-primary: 'Poppins', sans-serif;
-$font-secondary: 'Montserrat', sans-serif;
+$font-primary: "Poppins", sans-serif;
+$font-secondary: "Montserrat", sans-serif;
 $font-size-title: 2rem; // ~32px
 $font-size-subtitle: 1.5rem; // ~24px
 $font-size-body: 1rem; // ~16px
