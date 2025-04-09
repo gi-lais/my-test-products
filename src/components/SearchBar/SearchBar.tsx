@@ -31,6 +31,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
         }}
         fullWidth
         {...props}
+        sx={{
+          borderRadius: "20px",
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "20px",
+            height: "45px",
+          },
+        }}
       />
     ),
     [value, onSearch, label]
