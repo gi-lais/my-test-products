@@ -1,54 +1,62 @@
-# React + TypeScript + Vite
+# 📦 Projeto - Cadastro e Produtos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um sistema web para cadastro de usuários, login, e gerenciamento de produtos! 🔐🛒
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este projeto foi desenvolvido com as seguintes tecnologias:
 
-## Expanding the ESLint configuration
+⚛️ **React** - Biblioteca JavaScript para criar interfaces  
+💻 **TypeScript** - Linguagem para tipagem estática no JavaScript  
+🌍 **React Router** - Navegação entre páginas  
+📋 **React Hook Form** - Gerenciamento de formulários  
+🔒 **Axios** - Requisições HTTP para interação com APIs  
+🎨 **Material UI** - Componentes estilizados prontos para React  
+💅 **Sass** - Pré-processador CSS para estilizações  
+🔐 **Zod** - Validação de formulários
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Funcionalidades
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+✅ **Cadastro de usuários** com validação de CPF e CEP  
+✅ **Login de usuários** com autenticação via API mockada  
+✅ **Listagem de produtos** com filtro, paginação e visualização  
+✅ **Criação, edição e remoção de produtos**  
+✅ **Máscara de preço** para formatação do campo de valor  
+✅ **Design responsivo** e interface moderna com Material UI  
+✅ **Controle de formulários** com validação de campos obrigatórios
+
+## 🛠️ Como Rodar o Projeto
+
+1️⃣ **Clone o repositório**
+
+```bash
+git clone https://github.com/gi-lais/teste-front-end.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2️⃣ **Acesse a pasta do projeto**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+cd teste-front-end
 ```
+
+3️⃣ **Instale as dependências**
+
+```bash
+npm install  # ou yarn install # ou pnpm install
+```
+
+4️⃣ **Execute o projeto**
+
+```bash
+npm start  # ou yarn start # ou pnpm start
+```
+
+## 🎯 Objetivo
+
+Este projeto tem como objetivo demonstrar a implementação de um sistema completo de cadastro e login de usuários, gerenciamento de produtos com funcionalidades de CRUD, e interação com APIs mockadas para testes de requisições.
+
+## 🔗 Links úteis
+
+GitHub: https://github.com/gi-lais/teste-front-end
+
+## Feito com ❤️ por Giovanna Laís 🚀
