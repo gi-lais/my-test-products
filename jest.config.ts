@@ -4,10 +4,11 @@ const config: Config = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
   moduleNameMapper: {
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+    "\\.(css|less|scss|sass)$/": "identity-obj-proxy",
   },
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.scss$": "jest-transform-stub",
   },
   globals: {
     "ts-jest": {
