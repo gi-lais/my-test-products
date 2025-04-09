@@ -9,6 +9,7 @@ import {
   IconButton,
   Snackbar,
   Alert,
+  FormHelperText,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import Visibility from "@mui/icons-material/Visibility";
@@ -156,11 +157,7 @@ const LoginForm = () => {
             sx={{ width: "400px" }}
           />
           {errors.senha && (
-            <span
-              style={{ color: "red", fontSize: "0.75rem", marginTop: "4px" }}
-            >
-              {errors.senha.message}
-            </span>
+            <FormHelperText error>{errors.senha.message}</FormHelperText>
           )}
         </FormControl>
 

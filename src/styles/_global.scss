@@ -111,4 +111,11 @@
       background-color: rgba(255, 255, 255, 0.2);
     }
   }
+
+  .btnText {
+    background-color: white;
+    color: $color-text-secondary !important;
+    font-family: $font-primary;
+    font-size: 12px !important;
+  }
 }

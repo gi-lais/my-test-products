@@ -54,6 +54,10 @@ const Products = () => {
       : products;
   }, [search, products]);
 
+  const handleClearFilters = () => {
+    setSearch(""); // Limpa o filtro de busca
+  };
+
   const columns = [
     { field: "nome", headerName: "Nome", flex: 1 },
     {
@@ -94,14 +98,28 @@ const Products = () => {
         mb={2}
         alignItems="center"
       >
-        <SearchBar label="Buscar" onSearch={(term) => setSearch(term)} />
-        <Button
-          variant="contained"
-          onClick={() => navigate("/products/create")}
-          className="btnSecondary"
-        >
-          Novo Produto
-        </Button>
+        <SearchBar
+          label="Buscar"
+          onSearch={(term) => setSearch(term)}
+          value={search}
+        />
+        <Box display="flex" gap={1}>
+          <Button
+            variant="text"
+            onClick={handleClearFilters}
+            className="btnText"
+          >
+            Limpar Filtros
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={() => navigate("/products/create")}
+            className="btnSecondary"
+          >
+            Novo Produto
+          </Button>
+        </Box>
       </Box>
 
       {loading ? (
