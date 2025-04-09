@@ -4,45 +4,28 @@ import Products from "../pages/Products/Products";
 import { PrivateRoute } from "./PrivateRoute";
 import ProtectedLayout from "../layouts/Layout";
 import ProductForm from "../components/ProductForm/ProductForm";
+import ProductDetails from "../pages/Products/ProductsDetails";
+import NotFound from "../pages/NotFound/NotFound";
 
 export const AppRoutes = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Auth />} />
-      <Route
-        path="/products"
-        element={
-          <PrivateRoute>
-            <ProtectedLayout>
-              <Products />
-            </ProtectedLayout>
-          </PrivateRoute>
-        }
-      />
 
       <Route
-        path="/products/create"
         element={
           <PrivateRoute>
-            <ProtectedLayout>
-              <ProductForm />
-            </ProtectedLayout>
+            <ProtectedLayout />
           </PrivateRoute>
         }
-      />
+      >
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/create" element={<ProductForm />} />
+        <Route path="/products/edit/:id" element={<ProductForm isEditMode />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
+      </Route>
 
-      <Route
-        path="/products/edit/:id"
-        element={
-          <PrivateRoute>
-            <ProtectedLayout>
-              <ProductForm isEditMode />
-            </ProtectedLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route path="*" element={<div>Página não encontrada</div>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
 );
