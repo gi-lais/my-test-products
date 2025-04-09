@@ -1,17 +1,35 @@
-import { Button } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
+import { Product } from "../../interfaces/IProducts";
 
-interface ActionCellRendererProps {
-  value: string;
-}
-
-const ActionCellRenderer = (props: ActionCellRendererProps) => {
+const ActionCellRenderer = ({ product }: { product: Product }) => {
   const navigate = useNavigate();
 
+  const handleView = () => navigate(`/products/${product.id}`);
+  const handleEdit = () => navigate(`/products/edit/${product.id}`);
+  const handleDelete = () => navigate(`/products/delete/${product.id}`);
+
   return (
-    <Button size="small" onClick={() => navigate(`/products/${props.value}`)}>
-      Ver
-    </Button>
+    <>
+      <Tooltip title="Visualizar">
+        <IconButton onClick={handleView}>
+          <VisibilityIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Editar">
+        <IconButton onClick={handleEdit}>
+          <EditIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Remover">
+        <IconButton onClick={handleDelete}>
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+    </>
   );
 };
 

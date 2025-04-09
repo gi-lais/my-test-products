@@ -1,24 +1,15 @@
 import { useEffect, useState, useMemo } from "react";
-import { AgGridReact } from "ag-grid-react";
-import {
-  ClientSideRowModelModule,
-  ColDef,
-  ICellRendererParams,
-  ModuleRegistry,
-} from "ag-grid-community";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Product } from "../../interfaces/IProducts";
-
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import { matchSorter } from "match-sorter";
+import Table from "../../components/Table/Table";
 import ActionCellRenderer from "../../components/ActionCellRender/ActionCellRender";
-
-ModuleRegistry.registerModules([ClientSideRowModelModule]);
+import { Product } from "../../interfaces/IProducts";
+import { GridRenderCellParams } from "@mui/x-data-grid";
 
 const Products = () => {
-  const [rowData, setRowData] = useState<Product[]>([]);
-  const [filterText, setFilterText] = useState("");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -29,45 +20,56 @@ const Products = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setRowData(data));
+      .then((data) => setProducts(data));
   }, [token]);
 
-  const columnDefs: ColDef<Product>[] = useMemo(
-    () => [
-      {
-        headerName: "Avatar",
-        field: "avatar",
-        cellRenderer: (params: ICellRendererParams<Product>) =>
-          `<img src="${params.value}" alt="avatar" style="width: 40px; border-radius: 50%" />`,
-      },
-      { headerName: "Nome", field: "nome" },
-      { headerName: "Descrição", field: "descricao" },
-      { headerName: "Preço", field: "preco" },
-      { headerName: "Categoria", field: "categoria" },
-      {
-        headerName: "Ações",
-        field: "id",
-        cellRenderer: ActionCellRenderer,
-      },
-    ],
-    []
-  );
+  const filtered = useMemo(() => {
+    return search
+      ? matchSorter(products, search, {
+          keys: ["nome", "preco", "qt_estoque", "qt_vendas", "marca"],
+        })
+      : products;
+  }, [search, products]);
 
-  const filteredData = rowData.filter((item) =>
-    item.nome.toLowerCase().includes(filterText.toLowerCase())
-  );
+  const columns = [
+    { field: "nome", headerName: "Nome", flex: 1 },
+    {
+      field: "avatar",
+      headerName: "Avatar",
+      width: 80,
+      renderCell: (params: GridRenderCellParams) => (
+        <Avatar src={params.value} alt={params.row.nome} />
+      ),
+    },
+    {
+      field: "preco",
+      headerName: "Preço",
+      flex: 1,
+      valueFormatter: (params: any) =>
+        isNaN(params.value) ? "—" : `R$ ${parseFloat(params.value).toFixed(2)}`,
+    },
+    { field: "qt_estoque", headerName: "Estoque", flex: 1 },
+    { field: "qt_vendas", headerName: "Qntd. Vendas", flex: 1 },
+    { field: "marca", headerName: "Marca", flex: 1 },
+    {
+      field: "actions",
+      headerName: "",
+      width: 100,
+      renderCell: (params: GridRenderCellParams) => (
+        <ActionCellRenderer product={params.row} />
+      ),
+      sortable: false,
+      filterable: false,
+    },
+  ];
 
   return (
-    <Box
-      p={2}
-      className="ag-theme-alpine"
-      style={{ height: "80vh", width: "100%" }}
-    >
-      <Box display="flex" justifyContent="space-between" mb={2}>
+    <Box p={3}>
+      <Box display="flex" justifyContent="space-between" mb={3}>
         <TextField
           label="Buscar produto"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <Button
           variant="contained"
@@ -77,13 +79,20 @@ const Products = () => {
         </Button>
       </Box>
 
-      <AgGridReact<Product>
-        rowData={filteredData}
-        columnDefs={columnDefs}
-        pagination={true}
-        paginationPageSize={15}
-        domLayout="autoHeight"
-      />
+      {filtered.length === 0 ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="60vh"
+          bgcolor="#f5f5f5"
+          borderRadius={2}
+        >
+          <Typography variant="h6">Nenhum produto encontrado</Typography>
+        </Box>
+      ) : (
+        <Table columns={columns} rows={filtered} />
+      )}
     </Box>
   );
 };
