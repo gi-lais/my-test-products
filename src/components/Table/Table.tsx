@@ -9,9 +9,16 @@ interface TableProps {
   loading?: boolean;
 }
 
-const Table: React.FC<TableProps> = ({ columns, rows, height = 500 }) => {
+const Table: React.FC<TableProps> = ({ columns, rows, height = "70vh" }) => {
   return (
-    <Box sx={{ height, width: "100%" }}>
+    <Box
+      sx={{
+        height,
+        width: "100%",
+        backgroundColor: "#FFF",
+        fontFamily: "Poppins",
+      }}
+    >
       <DataGrid
         rows={rows}
         columns={columns}

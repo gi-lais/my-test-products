@@ -1,26 +1,49 @@
 import { useEffect, useState, useMemo } from "react";
-import { Box, Button, TextField, Typography, Avatar } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Avatar,
+  CircularProgress,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { matchSorter } from "match-sorter";
 import Table from "../../components/Table/Table";
 import ActionCellRenderer from "../../components/ActionCellRender/ActionCellRender";
 import { Product } from "../../interfaces/IProducts";
 import { GridRenderCellParams } from "@mui/x-data-grid";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://6256fc506ea7037005434e84.mockapi.io/api/v1/produto", {
-      headers: {
-        Authorization: token || "",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          "https://6256fc506ea7037005434e84.mockapi.io/api/v1/produto",
+          {
+            headers: {
+              Authorization: token || "",
+            },
+          }
+        );
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, [token]);
 
   const filtered = useMemo(() => {
@@ -44,17 +67,17 @@ const Products = () => {
     {
       field: "preco",
       headerName: "Preço",
-      flex: 1,
-      valueFormatter: (params: any) =>
-        isNaN(params.value) ? "—" : `R$ ${parseFloat(params.value).toFixed(2)}`,
+      flex: 0.5,
+      renderCell: (params: GridRenderCellParams) =>
+        formatCurrency(params.value),
     },
-    { field: "qt_estoque", headerName: "Estoque", flex: 1 },
-    { field: "qt_vendas", headerName: "Qntd. Vendas", flex: 1 },
-    { field: "marca", headerName: "Marca", flex: 1 },
+    { field: "qt_estoque", headerName: "Estoque", flex: 0.5 },
+    { field: "qt_vendas", headerName: "Qntd. Vendas", flex: 0.5 },
+    { field: "marca", headerName: "Marca", flex: 0.5 },
     {
       field: "actions",
-      headerName: "",
-      width: 100,
+      headerName: "Ações",
+      width: 200,
       renderCell: (params: GridRenderCellParams) => (
         <ActionCellRenderer product={params.row} />
       ),
@@ -65,21 +88,32 @@ const Products = () => {
 
   return (
     <Box p={3}>
-      <Box display="flex" justifyContent="space-between" mb={3}>
-        <TextField
-          label="Buscar produto"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        mb={2}
+        alignItems="center"
+      >
+        <SearchBar label="Buscar" onSearch={(term) => setSearch(term)} />
         <Button
           variant="contained"
           onClick={() => navigate("/products/create")}
+          className="btnSecondary"
         >
           Novo Produto
         </Button>
       </Box>
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="60vh"
+        >
+          <CircularProgress />
+        </Box>
+      ) : filtered.length === 0 ? (
         <Box
           display="flex"
           justifyContent="center"
