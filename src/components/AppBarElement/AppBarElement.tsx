@@ -13,8 +13,10 @@ import {
 } from "@mui/material";
 import { UserService } from "../../services/userService";
 import styles from "./AppBarElement.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const AppBarElement = () => {
+  const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -31,7 +33,7 @@ const AppBarElement = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
-    window.location.href = "/login";
+    navigate("/");
   };
 
   React.useEffect(() => {
@@ -70,7 +72,7 @@ const AppBarElement = () => {
           {user && (
             <Box className={styles.userContainer}>
               <Typography className={styles.userName}>
-                {user.nome} {user.surname}
+                {user.nome} {user.sobrenome}
               </Typography>
               <Tooltip title="Abrir menu">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

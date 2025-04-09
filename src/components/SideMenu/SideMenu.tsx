@@ -8,12 +8,10 @@ import {
   IconButton,
   Toolbar,
   Divider,
-  Box,
   Typography,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import LogoutIcon from "@mui/icons-material/Logout";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -38,11 +36,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ open, toggleDrawer }) => {
     navigate(path);
   };
 
-  const handleLogoff = () => {
-    localStorage.clear();
-    navigate("/login");
-  };
-
   return (
     <Drawer
       variant="permanent"
@@ -60,7 +53,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ open, toggleDrawer }) => {
           marginTop: "110px",
           border: "none",
         },
-        borderBottomRightRadius: "20px",
       }}
     >
       <Toolbar
@@ -121,32 +113,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ open, toggleDrawer }) => {
           </ListItem>
         ))}
       </List>
-
-      <Box sx={{ mt: "auto", mb: 2 }}>
-        <ListItem
-          component="button"
-          onClick={handleLogoff}
-          sx={{
-            justifyContent: open ? "initial" : "center",
-            px: 2.5,
-            "&:hover": {
-              backgroundColor: "#f0f0f0",
-            },
-          }}
-        >
-          <ListItemIcon
-            sx={{
-              minWidth: 0,
-              mr: open ? 3 : "auto",
-              justifyContent: "center",
-              color: "#d32f2f",
-            }}
-          >
-            <LogoutIcon />
-          </ListItemIcon>
-          {open && <ListItemText primary="Sair" />}
-        </ListItem>
-      </Box>
     </Drawer>
   );
 };
